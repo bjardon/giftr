@@ -1,0 +1,8 @@
+# artifacts
+dist/
+
+# dependencies
+node_modules/
+
+# sst
+sst-env.d.ts
