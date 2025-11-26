@@ -1,0 +1,26 @@
+{
+  "name": "giftr-monorepo",
+  "version": "1.0.0",
+  "private": true,
+  "packageManager": "pnpm@10.19.0",
+  "scripts": {
+    "dev": "pnpm --filter @giftr/web dev",
+    "sst:dev": "sst dev",
+    "sst:deploy": "sst deploy",
+    "sst:remove": "sst remove",
+    "build": "pnpm -r build",
+    "build:core": "pnpm --filter @giftr/core build",
+    "build:web": "pnpm --filter @giftr/web build",
+    "build:functions": "pnpm --filter @giftr/functions build",
+    "lint": "pnpm -r lint",
+    "clean": "pnpm -r exec rm -rf node_modules dist .next"
+  },
+  "devDependencies": {
+    "@types/aws-lambda": "8.10.159",
+    "sst": "^3.17.23"
+  },
+  "dependencies": {
+    "sst": "3.17.23"
+  },
+  "prettier": {}
+}
