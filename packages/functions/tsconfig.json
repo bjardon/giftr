@@ -13,5 +13,6 @@
       "@giftr/core": ["../core/src"],
       "@giftr/core/*": ["../core/src/*"]
     }
-  }
+  },
+  "exclude": ["node_modules", "sst.config.ts", "sst-env.d.ts"]
 }

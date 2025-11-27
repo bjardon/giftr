@@ -1,1 +1,3 @@
-{}
+{
+  "exclude": ["node_modules", "sst.config.ts", "sst-env.d.ts"]
+}
