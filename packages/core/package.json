@@ -16,10 +16,10 @@
   "license": "ISC",
   "packageManager": "pnpm@10.19.0",
   "dependencies": {
+    "@neondatabase/serverless": "^1.0.2",
     "@types/node": "^20.19.25",
     "drizzle-kit": "^0.31.7",
     "drizzle-orm": "^0.44.7",
-    "postgres": "^3.4.7",
     "typescript": "^5.9.3"
   },
   "exports": {
