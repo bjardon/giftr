@@ -3,13 +3,13 @@ import { eq } from "drizzle-orm";
 
 export interface ClerkUser {
   id: string;
-  emailAddresses: { emailAddress: string }[];
+  emailAddresses: { email_address: string }[];
   firstName: string | null;
   lastName: string | null;
 }
 
 export async function syncUserToDatabase(user: ClerkUser) {
-  const email = user.emailAddresses[0]?.emailAddress;
+  const email = user.emailAddresses[0]?.email_address;
   const name = `${user.firstName || ""} ${user.lastName || ""}`.trim() || email;
 
   if (!email) {
