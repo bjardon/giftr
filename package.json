@@ -16,8 +16,7 @@
     "clean": "pnpm -r exec rm -rf node_modules dist .next"
   },
   "devDependencies": {
-    "@types/aws-lambda": "8.10.159",
-    "sst": "^3.17.23"
+    "@types/aws-lambda": "8.10.159"
   },
   "dependencies": {
     "sst": "3.17.23"

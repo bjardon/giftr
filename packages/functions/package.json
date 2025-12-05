@@ -15,6 +15,7 @@
   "dependencies": {
     "@giftr/core": "workspace:*",
     "hono": "^4.10.6",
+    "sst": "3.17.23",
     "svix": "^1.81.0"
   }
 }
