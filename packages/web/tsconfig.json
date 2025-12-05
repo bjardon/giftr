@@ -31,7 +31,8 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     ".next/dev/types/**/*.ts",
-    "**/*.mts"
+    "**/*.mts",
+    "sst-env.d.ts"
   ],
-  "exclude": ["node_modules", "sst.config.ts", "sst-env.d.ts"]
+  "exclude": ["node_modules", "sst.config.ts"]
 }

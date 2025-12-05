@@ -13,6 +13,6 @@
     "declaration": true,
     "declarationMap": true
   },
-  "include": ["src/**/*"],
-  "exclude": ["node_modules", "dist", "sst.config.ts", "sst-env.d.ts"]
+  "include": ["src/**/*", "sst-env.d.ts"],
+  "exclude": ["node_modules", "dist", "sst.config.ts"]
 }
