@@ -5,5 +5,12 @@
   //     "source.fixAll": "explicit",
   //     "source.organizeImports": "explicit"
   // },
-  "cSpell.words": ["giftr", "postgres", "svix"]
+  "cSpell.words": [
+    "giftr",
+    "neondatabase",
+    "papelitos",
+    "participations",
+    "postgres",
+    "svix"
+  ]
 }
