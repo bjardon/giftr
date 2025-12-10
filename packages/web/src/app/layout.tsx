@@ -4,6 +4,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
 import "./globals.css";
+import { Toaster } from "@/components/ui/sonner";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -16,8 +17,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Giftr - Secret Santa Made Easy",
-  description: "Organize and participate in Secret Santa gift exchanges",
+  title: "Giftr - Intercambio de regalos",
+  description: "Organiza y participa en intercambios de regalos",
 };
 
 export default function RootLayout({
@@ -27,7 +28,7 @@ export default function RootLayout({
 }>) {
   return (
     <ClerkProvider>
-      <html lang="en">
+      <html lang="es">
         <body
           className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         >
@@ -36,6 +37,7 @@ export default function RootLayout({
             <main className="flex-1">{children}</main>
             <Footer />
           </div>
+          <Toaster />
         </body>
       </html>
     </ClerkProvider>
