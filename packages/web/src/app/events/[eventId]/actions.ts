@@ -486,3 +486,45 @@ export async function disableAutoDraw(eventId: string) {
     };
   }
 }
+
+/**
+ * Update event instructions (rich text content as JSON string)
+ */
+export async function updateInstructions(
+  eventId: string,
+  instructions: string
+) {
+  const { event, isOrganizer } = await getAuthenticatedOrganizer(eventId);
+
+  if (!event || !isOrganizer) {
+    return {
+      success: false,
+      error: "No tienes permiso para editar las instrucciones",
+    };
+  }
+
+  // Basic validation - instructions should be a non-empty string
+  if (!instructions || instructions.trim().length === 0) {
+    return {
+      success: false,
+      error: "Las instrucciones no pueden estar vacías",
+    };
+  }
+
+  try {
+    await db
+      .update(events)
+      .set({
+        instructions,
+        updatedAt: new Date(),
+      })
+      .where(eq(events.id, eventId));
+
+    revalidatePath(`/events/${eventId}`);
+
+    return { success: true };
+  } catch (error) {
+    console.error("Error updating instructions:", error);
+    return { success: false, error: "Error al actualizar las instrucciones" };
+  }
+}

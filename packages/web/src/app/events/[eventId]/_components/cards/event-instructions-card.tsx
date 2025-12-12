@@ -8,9 +8,12 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { FileText, MoreHorizontal, Pencil } from "lucide-react";
-import { useState, useEffect } from "react";
+import { FileText, MoreHorizontal, Pencil, Loader2 } from "lucide-react";
+import { useState, useEffect, useTransition } from "react";
 import { toast } from "sonner";
+import { updateInstructions } from "../../actions";
+import type { JSONContent } from "novel";
+import { Label } from "@/components/ui/label";
 
 interface EventInstructionsCardProps {
   eventId: string;
@@ -24,19 +27,45 @@ export function EventInstructionsCard({
   isOrganizer,
 }: EventInstructionsCardProps) {
   const [mounted, setMounted] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
+  const [editedContent, setEditedContent] = useState<string>(instructions);
+  const [isPending, startTransition] = useTransition();
 
   // Prevent hydration mismatch with Radix ID generation
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setMounted(true);
   }, []);
 
-  // For now, display raw instructions text
-  // TODO: Parse and render TipTap JSON content when editor is integrated
-  const hasInstructions = instructions && instructions.trim().length > 0;
+  // Parse instructions as JSON if possible, otherwise null for empty state
+  const parsedInstructions = instructions ? tryParseJSON(instructions) : null;
+  const hasInstructions = parsedInstructions !== null;
 
   const handleEditInstructions = () => {
-    // TODO: Implement edit instructions dialog
-    toast.info("Función de editar instrucciones próximamente");
+    setEditedContent(instructions);
+    setIsEditing(true);
+  };
+
+  const handleContentChange = (content: JSONContent) => {
+    setEditedContent(JSON.stringify(content));
+  };
+
+  const handleSave = () => {
+    startTransition(async () => {
+      const result = await updateInstructions(eventId, editedContent);
+
+      if (result.success) {
+        toast.success("Instrucciones actualizadas");
+        setIsEditing(false);
+      } else {
+        toast.error(result.error || "Error al actualizar las instrucciones");
+      }
+    });
+  };
+
+  const handleCancel = () => {
+    setEditedContent(instructions);
+    setIsEditing(false);
   };
 
   return (
@@ -49,6 +78,7 @@ export function EventInstructionsCard({
           </CardTitle>
 
           {isOrganizer &&
+            !isEditing &&
             (mounted ? (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
@@ -81,19 +111,38 @@ export function EventInstructionsCard({
         </div>
       </CardHeader>
       <CardContent>
-        {/* TipTap rich text content will render here */}
-        <div className="prose prose-sm max-w-none min-h-[100px]">
-          {hasInstructions ? (
-            <p className="text-sm text-foreground whitespace-pre-wrap">
-              {instructions}
-            </p>
-          ) : (
-            <p className="text-sm text-muted-foreground italic">
-              No se han proporcionado instrucciones para este evento.
-            </p>
-          )}
-        </div>
+        {isEditing ? (
+          <div className="space-y-4">
+            <Label htmlFor="instructions">Instrucciones</Label>
+            <textarea
+              id="instructions"
+              value={editedContent}
+              onChange={(e) => setEditedContent(e.target.value)}
+              className="w-full min-h-[100px] p-2 border border-gray-300 rounded-md"
+            />
+          </div>
+        ) : (
+          <div className="space-y-4">
+            <p className="text-sm text-muted-foreground">{instructions}</p>
+          </div>
+        )}
       </CardContent>
     </Card>
   );
+}
+
+/**
+ * Helper function to safely parse JSON
+ */
+function tryParseJSON(str: string): JSONContent | null {
+  try {
+    const parsed = JSON.parse(str);
+    // Check if it's a valid TipTap/ProseMirror JSON structure
+    if (parsed && typeof parsed === "object" && parsed.type) {
+      return parsed;
+    }
+    return null;
+  } catch {
+    return null;
+  }
 }
