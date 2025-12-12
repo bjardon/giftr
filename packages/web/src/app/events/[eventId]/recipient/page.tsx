@@ -66,7 +66,7 @@ const wishlistItems = [
 
 export default function RecipientPage() {
   return (
-    <div className="relative min-h-screen bg-gradient-to-b from-amber-50/50 to-blue-50/50">
+    <div className="relative min-h-screen">
       {/* Decorative snowflakes */}
       <div className="absolute top-20 right-10 text-muted-foreground/10 text-4xl pointer-events-none select-none">
         <Snowflake className="size-8" />

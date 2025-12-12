@@ -75,3 +75,52 @@ export const createEventSchema = z
   );
 
 export type CreateEventFormData = z.infer<typeof createEventSchema>;
+
+/**
+ * Schema for inviting a participant to an event
+ */
+export const inviteParticipantSchema = z.object({
+  email: z.email("Ingresa un correo electrónico válido").trim().toLowerCase(),
+});
+
+export type InviteParticipantFormData = z.infer<typeof inviteParticipantSchema>;
+
+/**
+ * Schema for updating an event (limited fields)
+ * Only title, topic, budget and currency can be updated
+ */
+export const updateEventSchema = z.object({
+  title: z
+    .string("El título del evento es requerido")
+    .trim()
+    .min(1, "El título del evento es requerido")
+    .max(255, "El título del evento no puede exceder los 255 caracteres"),
+  topic: z
+    .string()
+    .trim()
+    .max(255, "El tema del evento no puede exceder los 255 caracteres")
+    .optional()
+    .or(z.literal(""))
+    .transform((val) => (val === "" ? null : val)),
+  budget: z
+    .number("El presupuesto debe ser un número válido")
+    .positive("El presupuesto debe ser un número positivo"),
+  currency: z.enum(["USD", "EUR", "GBP", "CAD", "AUD", "MXN"], {
+    message:
+      "La moneda debe ser una de las siguientes: USD, EUR, GBP, CAD, AUD, MXN",
+  }),
+});
+
+export type UpdateEventFormData = z.infer<typeof updateEventSchema>;
+
+/**
+ * Schema for scheduling auto-draw
+ */
+export const scheduleDrawSchema = z.object({
+  scheduledDrawAt: z.iso.datetime({
+    local: true,
+    error: "Formato de fecha y hora inválido",
+  }),
+});
+
+export type ScheduleDrawFormData = z.infer<typeof scheduleDrawSchema>;

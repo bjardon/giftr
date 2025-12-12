@@ -35,7 +35,7 @@ export default function InvitePage() {
 
   if (status === "accepted") {
     return (
-      <div className="min-h-screen bg-amber-50/30 flex items-center justify-center p-4">
+      <div className="min-h-screen flex items-center justify-center p-4">
         <Card className="max-w-md w-full">
           <CardContent className="p-8 text-center space-y-4">
             <Gift className="size-12 text-red-600 mx-auto" />
@@ -56,7 +56,7 @@ export default function InvitePage() {
 
   if (status === "declined") {
     return (
-      <div className="min-h-screen bg-amber-50/30 flex items-center justify-center p-4">
+      <div className="min-h-screen flex items-center justify-center p-4">
         <Card className="max-w-md w-full">
           <CardContent className="p-8 text-center space-y-4">
             <h1 className="text-2xl font-bold">Invitation Declined</h1>
@@ -75,7 +75,7 @@ export default function InvitePage() {
   }
 
   return (
-    <div className="min-h-screen bg-amber-50/30 flex items-center justify-center p-4">
+    <div className="min-h-screen flex items-center justify-center p-4">
       <div className="w-full max-w-lg">
         {/* Giftr Logo (top-left, outside card) */}
         <div className="mb-8">

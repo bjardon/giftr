@@ -39,7 +39,7 @@ export default function HomePage() {
   ];
 
   return (
-    <div className="relative min-h-screen bg-gradient-to-r from-amber-50/30 to-blue-50/30 overflow-hidden">
+    <div className="relative min-h-screen overflow-hidden">
       {/* Decorative background elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-20 left-10 text-muted-foreground/10">

@@ -52,7 +52,7 @@ export default async function EventsPage() {
       <Suspense fallback={null}>
         <ToastHandler />
       </Suspense>
-      <div className="relative min-h-screen bg-background">
+      <div className="relative min-h-screen">
         {/* Decorative snowflakes */}
         <div className="absolute top-20 right-10 text-muted-foreground/20 text-4xl pointer-events-none select-none">
           <Snowflake className="size-8" />
