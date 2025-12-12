@@ -1,5 +1,5 @@
 import { db, users } from "../db";
-import { eq } from "drizzle-orm";
+import { eq, or } from "drizzle-orm";
 
 export interface ClerkUser {
   id: string;
@@ -16,23 +16,25 @@ export async function syncUserToDatabase(user: ClerkUser) {
     throw new Error("Email is required");
   }
 
-  const existingUser = await db
+  const [existingUser] = await db
     .select()
     .from(users)
-    .where(eq(users.clerkId, user.id))
+    .where(or(eq(users.clerkId, user.id), eq(users.email, email)))
     .limit(1);
 
-  if (existingUser.length > 0) {
-    await db
+  if (existingUser) {
+    const [updatedUser] = await db
       .update(users)
       .set({
+        clerkId: user.id,
         email,
         name,
         updatedAt: new Date(),
       })
-      .where(eq(users.clerkId, user.id));
+      .where(eq(users.id, existingUser.id))
+      .returning();
 
-    return existingUser[0];
+    return updatedUser;
   } else {
     const [newUser] = await db
       .insert(users)
