@@ -18,6 +18,7 @@ import {
   PowerOff,
   RefreshCw,
   Shuffle,
+  User,
 } from "lucide-react";
 import { format, parseISO } from "date-fns";
 import { es } from "date-fns/locale";
@@ -35,6 +36,7 @@ interface EventInfoCardProps {
   drawnAt: Date | null;
   scheduledDrawAt: Date | null;
   isOrganizer: boolean;
+  organizerName?: string;
 }
 
 export function EventInfoCard({
@@ -46,6 +48,7 @@ export function EventInfoCard({
   drawnAt,
   scheduledDrawAt,
   isOrganizer,
+  organizerName,
 }: EventInfoCardProps) {
   const [mounted, setMounted] = useState(false);
   const [scheduleDialogOpen, setScheduleDialogOpen] = useState(false);
@@ -53,6 +56,7 @@ export function EventInfoCard({
 
   // Prevent hydration mismatch with Radix ID generation
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setMounted(true);
   }, []);
 
@@ -119,6 +123,19 @@ export function EventInfoCard({
                   </span>
                 </div>
                 <p className="font-semibold">{topic}</p>
+              </div>
+            )}
+
+            {/* Organizer (participant only) */}
+            {!isOrganizer && organizerName && (
+              <div className="space-y-1.5">
+                <div className="flex items-center gap-2 text-muted-foreground">
+                  <User className="size-4" />
+                  <span className="text-xs font-medium uppercase tracking-wide">
+                    Organizador
+                  </span>
+                </div>
+                <p className="font-semibold">{organizerName}</p>
               </div>
             )}
 

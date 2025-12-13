@@ -251,6 +251,111 @@ export async function leaveEvent(eventId: string, participantId: string) {
 }
 
 /**
+ * Helper to get authenticated user (for participant actions)
+ */
+async function getAuthenticatedUser() {
+  const { userId } = await auth();
+
+  if (!userId) {
+    redirect("/");
+  }
+
+  const user = await db.query.users.findFirst({
+    where: eq(users.clerkId, userId),
+  });
+
+  if (!user) {
+    redirect("/");
+  }
+
+  return user;
+}
+
+/**
+ * Accept an invitation to an event
+ */
+export async function acceptInvitation(eventId: string, participantId: string) {
+  const user = await getAuthenticatedUser();
+
+  try {
+    // Verify the participant belongs to the current user
+    const participant = await db.query.participants.findFirst({
+      where: and(
+        eq(participants.id, participantId),
+        eq(participants.userId, user.id),
+        eq(participants.eventId, eventId)
+      ),
+    });
+
+    if (!participant) {
+      return { success: false, error: "No tienes acceso a esta invitación" };
+    }
+
+    if (participant.status !== "pending") {
+      return { success: false, error: "Esta invitación ya fue respondida" };
+    }
+
+    await db
+      .update(participants)
+      .set({
+        status: "accepted",
+        updatedAt: new Date(),
+      })
+      .where(eq(participants.id, participantId));
+
+    revalidatePath(`/events`);
+    revalidatePath(`/events/${eventId}`);
+
+    return { success: true };
+  } catch (error) {
+    console.error("Error accepting invitation:", error);
+    return { success: false, error: "Error al aceptar la invitación" };
+  }
+}
+
+/**
+ * Decline an invitation to an event
+ */
+export async function declineInvitation(eventId: string, participantId: string) {
+  const user = await getAuthenticatedUser();
+
+  try {
+    // Verify the participant belongs to the current user
+    const participant = await db.query.participants.findFirst({
+      where: and(
+        eq(participants.id, participantId),
+        eq(participants.userId, user.id),
+        eq(participants.eventId, eventId)
+      ),
+    });
+
+    if (!participant) {
+      return { success: false, error: "No tienes acceso a esta invitación" };
+    }
+
+    if (participant.status !== "pending") {
+      return { success: false, error: "Esta invitación ya fue respondida" };
+    }
+
+    await db
+      .update(participants)
+      .set({
+        status: "declined",
+        updatedAt: new Date(),
+      })
+      .where(eq(participants.id, participantId));
+
+    revalidatePath(`/events`);
+    revalidatePath(`/events/${eventId}`);
+
+    return { success: true };
+  } catch (error) {
+    console.error("Error declining invitation:", error);
+    return { success: false, error: "Error al rechazar la invitación" };
+  }
+}
+
+/**
  * Delete the event
  */
 export async function deleteEvent(eventId: string) {

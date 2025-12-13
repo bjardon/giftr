@@ -2,7 +2,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { Suspense } from "react";
 import { auth } from "@clerk/nextjs/server";
-import { and, eq } from "drizzle-orm";
+import { and, eq, ne } from "drizzle-orm";
 import { db, events, participants, users } from "@giftr/core/db";
 import { Plus, Snowflake } from "lucide-react";
 
@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Container } from "@/components/layout/container";
 import { EventCard } from "./_components/event-card";
+import { ParticipantEventCard } from "./_components/participant-event-card";
 import { ToastHandler } from "./_components/toast-handler";
 
 export default async function EventsPage() {
@@ -36,7 +37,10 @@ export default async function EventsPage() {
       },
     }),
     db.query.participants.findMany({
-      where: and(eq(participants.userId, user.id)),
+      where: and(
+        eq(participants.userId, user.id),
+        ne(participants.status, "declined")
+      ),
       with: {
         event: {
           with: {
@@ -115,10 +119,11 @@ export default async function EventsPage() {
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {userParticipations.map((participant) => (
-                <EventCard
+                <ParticipantEventCard
                   key={participant.id}
                   event={participant.event}
-                  participants={participant.event.participants ?? []}
+                  participantId={participant.id}
+                  status={participant.status}
                 />
               ))}
             </div>

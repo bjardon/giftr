@@ -51,6 +51,7 @@ export default async function EventDetailPage({
     ),
     with: {
       user: true,
+      wishlistItems: true,
       recipient: {
         with: {
           user: true,
@@ -127,8 +128,19 @@ export default async function EventDetailPage({
           />
         ) : (
           <ParticipantView
-            event={event}
-            userParticipation={userParticipation}
+            eventId={event.id}
+            topic={event.topic}
+            scheduledOn={event.scheduledOn}
+            budget={event.budget}
+            currency={event.currency}
+            drawnAt={event.drawnAt}
+            instructions={event.instructions}
+            organizerId={event.organizer.id}
+            organizerName={event.organizer.name}
+            currentUserId={user.id}
+            participants={participantsData}
+            hasRecipient={!!userParticipation?.recipient}
+            wishlistItems={userParticipation?.wishlistItems ?? []}
           />
         )}
       </Container>
