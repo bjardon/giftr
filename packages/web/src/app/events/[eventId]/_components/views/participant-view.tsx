@@ -23,6 +23,18 @@ const getAvatarColor = (name: string) => {
   return colors[index];
 };
 
+interface WishlistItem {
+  id: string;
+  name: string;
+  link: string;
+  notes: string | null;
+}
+
+interface RecipientData {
+  name: string;
+  wishlistItems: WishlistItem[];
+}
+
 interface ParticipantViewProps {
   eventId: string;
   participantId: string;
@@ -44,13 +56,8 @@ interface ParticipantViewProps {
       email: string;
     };
   }>;
-  hasRecipient: boolean;
-  wishlistItems: Array<{
-    id: string;
-    name: string;
-    link: string;
-    notes: string | null;
-  }>;
+  recipient: RecipientData | null;
+  wishlistItems: WishlistItem[];
 }
 
 export function ParticipantView({
@@ -66,11 +73,11 @@ export function ParticipantView({
   organizerName,
   currentUserId,
   participants,
-  hasRecipient,
+  recipient,
   wishlistItems,
 }: ParticipantViewProps) {
   const isDrawn = !!drawnAt;
-  const showRecipientCard = isDrawn && hasRecipient;
+  const showRecipientCard = isDrawn && !!recipient;
 
   // Sort participants so current user is always first
   const sortedParticipants = [...participants].sort((a, b) => {
@@ -191,8 +198,12 @@ export function ParticipantView({
       {/* Right Column */}
       <div className="space-y-6">
         {/* Recipient Reveal Card OR Wishlist Card */}
-        {showRecipientCard ? (
-          <RecipientRevealCard eventId={eventId} />
+        {showRecipientCard && recipient ? (
+          <RecipientRevealCard
+            recipientName={recipient.name}
+            wishlistItems={recipient.wishlistItems}
+            budget={budget}
+          />
         ) : (
           <WishlistCard
             eventId={eventId}

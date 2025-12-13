@@ -1,17 +1,13 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import { Gift, Snowflake } from "lucide-react";
-import Link from "next/link";
 
 interface AssignmentCardProps {
-  eventId: string;
   recipientName: string | undefined;
   isDrawn: boolean;
   isParticipating: boolean;
 }
 
 export function AssignmentCard({
-  eventId,
   recipientName,
   isDrawn,
   isParticipating,
@@ -58,12 +54,6 @@ export function AssignmentCard({
           Estás comprando un regalo para:
         </p>
         <p className="text-3xl font-bold text-foreground">{recipientName}</p>
-        <Link href={`/events/${eventId}/recipient`} className="block">
-          <Button className="w-full bg-green-600 hover:bg-green-700 text-white">
-            Ver lista de deseos
-            <span className="ml-1">&rarr;</span>
-          </Button>
-        </Link>
       </CardContent>
     </Card>
   );

@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import { WishlistItemDialog } from "../dialogs/wishlist-item-dialog";
 import { DeleteWishlistItemDialog } from "../dialogs/delete-wishlist-item-dialog";
+import { isUrl } from "@/lib/utils";
 
 interface WishlistItem {
   id: string;
@@ -65,10 +66,7 @@ export function WishlistCard({
           {wishlistItems.length > 0 ? (
             <div className="space-y-3 max-h-[400px] overflow-y-auto">
               {wishlistItems.map((item) => {
-                const isLink =
-                  /(?:https?):\/\/(\w+:?\w*)?(\S+)(:\d+)?(\/|\/([\w#!:.?+=&%!\-/]))?/.test(
-                    item.link
-                  );
+                const isLink = isUrl(item.link);
 
                 return (
                   <div

@@ -5,6 +5,7 @@ import { EventInstructionsCard } from "../cards/event-instructions-card";
 import { ParticipantsCard } from "../cards/participants-card";
 import { AssignmentCard } from "../cards/assignment-card";
 import { WishlistCard } from "../cards/wishlist-card";
+import { RecipientRevealCard } from "../cards/recipient-reveal-card";
 
 interface Participant {
   id: string;
@@ -23,6 +24,11 @@ interface WishlistItem {
   notes: string | null;
 }
 
+interface RecipientData {
+  name: string;
+  wishlistItems: WishlistItem[];
+}
+
 interface OrganizerViewProps {
   eventId: string;
   topic: string | null;
@@ -35,7 +41,7 @@ interface OrganizerViewProps {
   participants: Participant[];
   organizerId: string;
   currentUserId: string;
-  recipientName: string | undefined;
+  recipient: RecipientData | null;
   isParticipating: boolean;
   participantId?: string;
   wishlistItems?: WishlistItem[];
@@ -53,12 +59,13 @@ export function OrganizerView({
   participants,
   organizerId,
   currentUserId,
-  recipientName,
+  recipient,
   isParticipating,
   participantId,
   wishlistItems,
 }: OrganizerViewProps) {
   const isDrawn = !!drawnAt;
+  const showRecipientCard = isDrawn && isParticipating && !!recipient;
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
@@ -86,28 +93,37 @@ export function OrganizerView({
 
       {/* Right Column */}
       <div className="space-y-6">
+        {/* Show AssignmentCard only when RecipientRevealCard is not being shown */}
+        {!showRecipientCard && (
+          <AssignmentCard
+            recipientName={recipient?.name}
+            isDrawn={isDrawn}
+            isParticipating={isParticipating}
+          />
+        )}
+
+        {isParticipating &&
+          participantId &&
+          (showRecipientCard && recipient ? (
+            <RecipientRevealCard
+              recipientName={recipient.name}
+              wishlistItems={recipient.wishlistItems}
+              budget={budget}
+            />
+          ) : wishlistItems ? (
+            <WishlistCard
+              eventId={eventId}
+              participantId={participantId}
+              wishlistItems={wishlistItems}
+            />
+          ) : null)}
+
         <EventInstructionsCard
           eventId={eventId}
           instructions={instructions}
           isOrganizer={true}
         />
-
-        <AssignmentCard
-          eventId={eventId}
-          recipientName={recipientName}
-          isDrawn={isDrawn}
-          isParticipating={isParticipating}
-        />
-
-        {isParticipating && participantId && wishlistItems && (
-          <WishlistCard
-            eventId={eventId}
-            participantId={participantId}
-            wishlistItems={wishlistItems}
-          />
-        )}
       </div>
     </div>
   );
 }
-

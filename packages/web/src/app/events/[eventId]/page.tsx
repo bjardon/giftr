@@ -85,6 +85,14 @@ export default async function EventDetailPage({
     },
   }));
 
+  // Transform recipient data for the views
+  const recipientData = userParticipation?.recipient
+    ? {
+        name: userParticipation.recipient.user.name,
+        wishlistItems: userParticipation.recipient.wishlistItems,
+      }
+    : null;
+
   return (
     <div className="relative min-h-screen">
       {/* Decorative snowflakes */}
@@ -123,7 +131,7 @@ export default async function EventDetailPage({
             participants={participantsData}
             organizerId={event.organizer.id}
             currentUserId={user.id}
-            recipientName={userParticipation?.recipient?.user?.name}
+            recipient={recipientData}
             isParticipating={isParticipating}
             participantId={userParticipation?.id}
             wishlistItems={userParticipation?.wishlistItems}
@@ -142,7 +150,7 @@ export default async function EventDetailPage({
             organizerName={event.organizer.name}
             currentUserId={user.id}
             participants={participantsData}
-            hasRecipient={!!userParticipation?.recipient}
+            recipient={recipientData}
             wishlistItems={userParticipation?.wishlistItems ?? []}
           />
         )}
