@@ -18,7 +18,7 @@ export function Header() {
             <Gift className="size-5 text-red-600" />
             <span className="text-xl font-bold text-red-700">Giftr</span>
           </Link>
-          <nav className="hidden md:flex items-center gap-6">
+          <nav className="flex items-center gap-6">
             <SignedOut>
               {/* <Link
                 href="#how-it-works"
