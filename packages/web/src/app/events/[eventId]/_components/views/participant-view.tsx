@@ -3,10 +3,10 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { Crown, ExternalLink, FileText, Snowflake, Users } from "lucide-react";
-import Link from "next/link";
+import { Crown, FileText, Users } from "lucide-react";
 import { EventInfoCard } from "../cards/event-info-card";
 import { RecipientRevealCard } from "../cards/recipient-reveal-card";
+import { WishlistCard } from "../cards/wishlist-card";
 
 // Helper function to get avatar color
 const getAvatarColor = (name: string) => {
@@ -25,6 +25,7 @@ const getAvatarColor = (name: string) => {
 
 interface ParticipantViewProps {
   eventId: string;
+  participantId: string;
   topic: string | null;
   scheduledOn: string;
   budget: string;
@@ -54,6 +55,7 @@ interface ParticipantViewProps {
 
 export function ParticipantView({
   eventId,
+  participantId,
   topic,
   scheduledOn,
   budget,
@@ -192,55 +194,11 @@ export function ParticipantView({
         {showRecipientCard ? (
           <RecipientRevealCard eventId={eventId} />
         ) : (
-          <Card className="relative">
-            <div className="absolute top-2 left-2 text-muted-foreground/20">
-              <Snowflake className="size-4" />
-            </div>
-            <div className="absolute top-2 right-2 text-muted-foreground/20">
-              <Snowflake className="size-4" />
-            </div>
-            <CardHeader>
-              <div className="flex items-center justify-between">
-                <CardTitle>Mi lista de deseos</CardTitle>
-                <Link
-                  href={`/events/${eventId}/wishlist`}
-                  className="text-sm text-destructive hover:underline flex items-center gap-1"
-                >
-                  Gestionar lista de deseos
-                  <ExternalLink className="size-3" />
-                </Link>
-              </div>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              {wishlistItems.map((item) => (
-                <div key={item.id} className="space-y-1">
-                  <p className="font-medium text-sm">{item.name}</p>
-                  {item.link && (
-                    <a
-                      href={
-                        item.link.startsWith("http")
-                          ? item.link
-                          : `https://${item.link}`
-                      }
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-xs text-primary hover:underline"
-                    >
-                      {item.link}
-                    </a>
-                  )}
-                  {item.notes && (
-                    <p className="text-xs text-muted-foreground">{item.notes}</p>
-                  )}
-                </div>
-              ))}
-              {wishlistItems.length === 0 && (
-                <p className="text-sm text-muted-foreground text-center py-4">
-                  No has agregado artículos a tu lista de deseos.
-                </p>
-              )}
-            </CardContent>
-          </Card>
+          <WishlistCard
+            eventId={eventId}
+            participantId={participantId}
+            wishlistItems={wishlistItems}
+          />
         )}
 
         {/* Instructions Card (read-only) */}

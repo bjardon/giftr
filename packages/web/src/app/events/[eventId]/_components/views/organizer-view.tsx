@@ -4,6 +4,7 @@ import { EventInfoCard } from "../cards/event-info-card";
 import { EventInstructionsCard } from "../cards/event-instructions-card";
 import { ParticipantsCard } from "../cards/participants-card";
 import { AssignmentCard } from "../cards/assignment-card";
+import { WishlistCard } from "../cards/wishlist-card";
 
 interface Participant {
   id: string;
@@ -13,6 +14,13 @@ interface Participant {
     name: string;
     email: string;
   };
+}
+
+interface WishlistItem {
+  id: string;
+  name: string;
+  link: string;
+  notes: string | null;
 }
 
 interface OrganizerViewProps {
@@ -29,6 +37,8 @@ interface OrganizerViewProps {
   currentUserId: string;
   recipientName: string | undefined;
   isParticipating: boolean;
+  participantId?: string;
+  wishlistItems?: WishlistItem[];
 }
 
 export function OrganizerView({
@@ -45,6 +55,8 @@ export function OrganizerView({
   currentUserId,
   recipientName,
   isParticipating,
+  participantId,
+  wishlistItems,
 }: OrganizerViewProps) {
   const isDrawn = !!drawnAt;
 
@@ -86,6 +98,14 @@ export function OrganizerView({
           isDrawn={isDrawn}
           isParticipating={isParticipating}
         />
+
+        {isParticipating && participantId && wishlistItems && (
+          <WishlistCard
+            eventId={eventId}
+            participantId={participantId}
+            wishlistItems={wishlistItems}
+          />
+        )}
       </div>
     </div>
   );

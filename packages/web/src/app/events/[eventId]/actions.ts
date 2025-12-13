@@ -3,13 +3,14 @@
 import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
-import { db, events, participants, users } from "@giftr/core/db";
+import { db, events, participants, users, wishlistItems } from "@giftr/core/db";
 import { and, eq } from "drizzle-orm";
 import { parseWithZod } from "@conform-to/zod/v4";
 import {
   inviteParticipantSchema,
   updateEventSchema,
   scheduleDrawSchema,
+  wishlistItemSchema,
 } from "@/lib/schemas/events";
 import { isRedirectError } from "next/dist/client/components/redirect-error";
 
@@ -631,5 +632,183 @@ export async function updateInstructions(
   } catch (error) {
     console.error("Error updating instructions:", error);
     return { success: false, error: "Error al actualizar las instrucciones" };
+  }
+}
+
+/**
+ * Helper to get authenticated user and verify participant access
+ */
+async function getAuthenticatedParticipant(eventId: string) {
+  const { userId } = await auth();
+
+  if (!userId) {
+    redirect("/");
+  }
+
+  const user = await db.query.users.findFirst({
+    where: eq(users.clerkId, userId),
+  });
+
+  if (!user) {
+    redirect("/");
+  }
+
+  const participant = await db.query.participants.findFirst({
+    where: and(
+      eq(participants.eventId, eventId),
+      eq(participants.userId, user.id)
+    ),
+  });
+
+  return { user, participant };
+}
+
+/**
+ * Add a new wishlist item for the current user's participation
+ */
+export async function addWishlistItem(
+  eventId: string,
+  participantId: string,
+  data: { name: string; link: string; notes: string }
+) {
+  const { participant } = await getAuthenticatedParticipant(eventId);
+
+  if (!participant || participant.id !== participantId) {
+    return {
+      success: false,
+      error: "No tienes permiso para agregar artículos a esta lista",
+    };
+  }
+
+  // Validate data with schema
+  const validationResult = wishlistItemSchema.safeParse(data);
+
+  if (!validationResult.success) {
+    const errors = validationResult.error.flatten().fieldErrors;
+    const firstError = Object.values(errors).flat()[0];
+    return {
+      success: false,
+      error: firstError ?? "Datos inválidos",
+    };
+  }
+
+  try {
+    await db.insert(wishlistItems).values({
+      participantId,
+      name: validationResult.data.name,
+      link: validationResult.data.link,
+      notes: validationResult.data.notes || null,
+    });
+
+    revalidatePath(`/events/${eventId}`);
+
+    return { success: true };
+  } catch (error) {
+    console.error("Error adding wishlist item:", error);
+    return { success: false, error: "Error al agregar el artículo" };
+  }
+}
+
+/**
+ * Update an existing wishlist item
+ */
+export async function updateWishlistItem(
+  eventId: string,
+  itemId: string,
+  data: { name: string; link: string; notes: string }
+) {
+  const { participant } = await getAuthenticatedParticipant(eventId);
+
+  if (!participant) {
+    return {
+      success: false,
+      error: "No tienes permiso para editar esta lista",
+    };
+  }
+
+  // Verify the item belongs to this participant
+  const item = await db.query.wishlistItems.findFirst({
+    where: and(
+      eq(wishlistItems.id, itemId),
+      eq(wishlistItems.participantId, participant.id)
+    ),
+  });
+
+  if (!item) {
+    return {
+      success: false,
+      error: "No se encontró el artículo o no tienes permiso para editarlo",
+    };
+  }
+
+  // Validate data with schema
+  const validationResult = wishlistItemSchema.safeParse(data);
+
+  if (!validationResult.success) {
+    const errors = validationResult.error.flatten().fieldErrors;
+    const firstError = Object.values(errors).flat()[0];
+    return {
+      success: false,
+      error: firstError ?? "Datos inválidos",
+    };
+  }
+
+  try {
+    await db
+      .update(wishlistItems)
+      .set({
+        name: validationResult.data.name,
+        link: validationResult.data.link,
+        notes: validationResult.data.notes || null,
+        updatedAt: new Date(),
+      })
+      .where(eq(wishlistItems.id, itemId));
+
+    revalidatePath(`/events/${eventId}`);
+
+    return { success: true };
+  } catch (error) {
+    console.error("Error updating wishlist item:", error);
+    return { success: false, error: "Error al actualizar el artículo" };
+  }
+}
+
+/**
+ * Delete a wishlist item
+ */
+export async function deleteWishlistItem(eventId: string, itemId: string) {
+  const { participant } = await getAuthenticatedParticipant(eventId);
+
+  if (!participant) {
+    return {
+      success: false,
+      error: "No tienes permiso para eliminar artículos de esta lista",
+    };
+  }
+
+  // Verify the item belongs to this participant
+  const item = await db.query.wishlistItems.findFirst({
+    where: and(
+      eq(wishlistItems.id, itemId),
+      eq(wishlistItems.participantId, participant.id)
+    ),
+  });
+
+  if (!item) {
+    return {
+      success: false,
+      error: "No se encontró el artículo o no tienes permiso para eliminarlo",
+    };
+  }
+
+  try {
+    await db.delete(wishlistItems).where(eq(wishlistItems.id, itemId));
+
+    revalidatePath(`/events/${eventId}`);
+
+    return { success: true };
+  } catch (error) {
+    console.error("Error deleting wishlist item:", error);
+    return { success: false, error: "Error al eliminar el artículo" };
   }
 }

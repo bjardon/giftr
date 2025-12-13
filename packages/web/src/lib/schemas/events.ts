@@ -124,3 +124,30 @@ export const scheduleDrawSchema = z.object({
 });
 
 export type ScheduleDrawFormData = z.infer<typeof scheduleDrawSchema>;
+
+/**
+ * Schema for wishlist item (add/edit)
+ */
+export const wishlistItemSchema = z.object({
+  name: z
+    .string("El nombre del artículo es requerido")
+    .trim()
+    .min(1, "El nombre del artículo es requerido")
+    .max(255, "El nombre no puede exceder los 255 caracteres"),
+  link: z
+    .string()
+    .trim()
+    .max(2000, "El link no puede exceder los 2000 caracteres")
+    .optional()
+    .or(z.literal(""))
+    .transform((val) => val ?? ""),
+  notes: z
+    .string()
+    .trim()
+    .max(1000, "Las notas no pueden exceder los 1000 caracteres")
+    .optional()
+    .or(z.literal(""))
+    .transform((val) => val ?? ""),
+});
+
+export type WishlistItemFormData = z.infer<typeof wishlistItemSchema>;

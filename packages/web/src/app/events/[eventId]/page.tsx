@@ -125,10 +125,13 @@ export default async function EventDetailPage({
             currentUserId={user.id}
             recipientName={userParticipation?.recipient?.user?.name}
             isParticipating={isParticipating}
+            participantId={userParticipation?.id}
+            wishlistItems={userParticipation?.wishlistItems}
           />
         ) : (
           <ParticipantView
             eventId={event.id}
+            participantId={userParticipation!.id}
             topic={event.topic}
             scheduledOn={event.scheduledOn}
             budget={event.budget}
