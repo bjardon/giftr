@@ -118,14 +118,21 @@ export default async function EventsPage() {
               Eventos en los que Participo ({userParticipations.length})
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {userParticipations.map((participant) => (
-                <ParticipantEventCard
-                  key={participant.id}
-                  event={participant.event}
-                  participantId={participant.id}
-                  status={participant.status}
-                />
-              ))}
+              {userParticipations
+                .filter(
+                  (participant) =>
+                    !organizingEvents
+                      .map((event) => event.id)
+                      .includes(participant.eventId)
+                )
+                .map((participant) => (
+                  <ParticipantEventCard
+                    key={participant.id}
+                    event={participant.event}
+                    participantId={participant.id}
+                    status={participant.status}
+                  />
+                ))}
             </div>
           </section>
         </Container>
