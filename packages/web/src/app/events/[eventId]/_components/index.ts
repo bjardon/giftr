@@ -5,7 +5,6 @@ export { EventHeader } from "./header/event-header";
 export { EventInfoCard } from "./cards/event-info-card";
 export { EventInstructionsCard } from "./cards/event-instructions-card";
 export { ParticipantsCard } from "./cards/participants-card";
-export { AssignmentCard } from "./cards/assignment-card";
 export { RecipientRevealCard } from "./cards/recipient-reveal-card";
 export { WishlistCard } from "./cards/wishlist-card";
 

@@ -3,7 +3,6 @@
 import { EventInfoCard } from "../cards/event-info-card";
 import { EventInstructionsCard } from "../cards/event-instructions-card";
 import { ParticipantsCard } from "../cards/participants-card";
-import { AssignmentCard } from "../cards/assignment-card";
 import { WishlistCard } from "../cards/wishlist-card";
 import { RecipientRevealCard } from "../cards/recipient-reveal-card";
 
@@ -93,15 +92,6 @@ export function OrganizerView({
 
       {/* Right Column */}
       <div className="space-y-6">
-        {/* Show AssignmentCard only when RecipientRevealCard is not being shown */}
-        {!showRecipientCard && (
-          <AssignmentCard
-            recipientName={recipient?.name}
-            isDrawn={isDrawn}
-            isParticipating={isParticipating}
-          />
-        )}
-
         {isParticipating &&
           participantId &&
           (showRecipientCard && recipient ? (
