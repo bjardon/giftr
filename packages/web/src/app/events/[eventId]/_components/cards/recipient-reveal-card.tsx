@@ -14,6 +14,7 @@ import {
   ChevronUp,
 } from "lucide-react";
 import { isUrl } from "@/lib/utils";
+import { ConfettiButton } from "@/components/ui/confetti";
 
 interface WishlistItem {
   id: string;
@@ -69,13 +70,13 @@ export function RecipientRevealCard({
               Nombre oculto - haz clic en revelar para descubrirlo
             </p>
           </div>
-          <Button
+          <ConfettiButton
             onClick={() => setIsRevealed(true)}
             className="w-full bg-green-600 hover:bg-green-700 text-white"
           >
             <Gift className="size-4 mr-2" />
             Revelar destinatario
-          </Button>
+          </ConfettiButton>
         </CardContent>
       </Card>
     );
