@@ -19,20 +19,6 @@ export function Header() {
             <span className="text-xl font-bold text-red-700">Giftr</span>
           </Link>
           <nav className="flex items-center gap-6">
-            <SignedOut>
-              {/* <Link
-                href="#how-it-works"
-                className="text-sm font-medium transition-colors hover:text-primary"
-              >
-                How It Works
-              </Link> */}
-              {/* <Link
-                href="#features"
-                className="text-sm font-medium transition-colors hover:text-primary"
-              >
-                Features
-              </Link> */}
-            </SignedOut>
             <SignedIn>
               <Link
                 href="/events"
@@ -48,14 +34,15 @@ export function Header() {
               </Link>
             </SignedIn>
             <SignedOut>
-              <SignUpButton mode="modal">
-                <Button variant="ghost">Registrarse</Button>
-              </SignUpButton>
-              <SignInButton mode="modal">
-                <Button className="bg-red-600 hover:bg-red-700 text-white">
-                  Comenzar
-                </Button>
-              </SignInButton>
+              <Button variant="ghost" asChild>
+                <Link href="/sign-up">Registrarse</Link>
+              </Button>
+              <Button
+                className="bg-red-600 hover:bg-red-700 text-white"
+                asChild
+              >
+                <Link href="/sign-in">Iniciar Sesión</Link>
+              </Button>
             </SignedOut>
             <SignedIn>
               <UserButton />

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { ClerkProvider } from "@clerk/nextjs";
+import { esMX } from "@clerk/localizations";
 import { DM_Sans } from "next/font/google";
 
 import { Header } from "@/components/layout/header";
@@ -25,7 +26,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <ClerkProvider>
+    <ClerkProvider localization={esMX}>
       <html lang="es">
         <body className={`${dmSans.variable} antialiased font-sans`}>
           <div className="flex min-h-screen flex-col bg-gradient-to-r from-amber-50/50 to-blue-50/50">

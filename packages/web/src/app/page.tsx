@@ -1,6 +1,6 @@
 "use client";
 
-import { SignedIn, SignedOut, SignUpButton } from "@clerk/nextjs";
+import { SignedIn, SignedOut } from "@clerk/nextjs";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -11,15 +11,7 @@ import {
 } from "@/components/ui/card";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import Link from "next/link";
-import {
-  Gift,
-  Snowflake,
-  Calendar,
-  UserPlus,
-  Shuffle,
-  ChevronDown,
-  ArrowDown,
-} from "lucide-react";
+import { Gift, Snowflake, Calendar, UserPlus, Shuffle } from "lucide-react";
 
 export default function HomePage() {
   // Mock avatars for the hero illustration
@@ -30,12 +22,6 @@ export default function HomePage() {
     { initials: "DB", color: "bg-purple-500" },
     { initials: "LD", color: "bg-orange-500" },
     { initials: "RW", color: "bg-blue-500" },
-  ];
-
-  const userAvatars = [
-    { initials: "AB", color: "bg-blue-500" },
-    { initials: "CD", color: "bg-green-500" },
-    { initials: "EF", color: "bg-pink-500" },
   ];
 
   return (
@@ -78,29 +64,27 @@ export default function HomePage() {
 
             <div className="flex flex-col sm:flex-row gap-4">
               <SignedOut>
-                <SignUpButton mode="modal">
-                  <Button
-                    size="lg"
-                    className="bg-red-600 hover:bg-red-700 text-white"
-                  >
-                    Comenzar Gratis
-                  </Button>
-                </SignUpButton>
+                <Button
+                  size="lg"
+                  className="bg-red-600 hover:bg-red-700 text-white"
+                  asChild
+                >
+                  <Link href="/sign-up">Comenzar Gratis</Link>
+                </Button>
               </SignedOut>
               <SignedIn>
-                <Link href="/events/new">
-                  <Button
-                    size="lg"
-                    className="bg-red-600 hover:bg-red-700 text-white"
-                  >
-                    Comenzar Gratis
-                  </Button>
-                </Link>
+                <Button
+                  size="lg"
+                  className="bg-red-600 hover:bg-red-700 text-white"
+                  asChild
+                >
+                  <Link href="/events/new">Comenzar Gratis</Link>
+                </Button>
               </SignedIn>
-              <Button size="lg" variant="outline" className="gap-2">
+              {/* <Button size="lg" variant="outline" className="gap-2">
                 Ver Cómo Funciona
                 <ArrowDown className="size-4" />
-              </Button>
+              </Button> */}
             </div>
 
             {/* <div className="flex items-center gap-3 text-sm text-muted-foreground">
