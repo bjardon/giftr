@@ -4,12 +4,11 @@ import { SignedIn, SignedOut } from "@clerk/nextjs";
 import { Button } from "@/components/ui/button";
 import {
   Card,
-  CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import Image from "next/image";
 import Link from "next/link";
 import { Gift, Snowflake, Calendar, UserPlus, Shuffle } from "lucide-react";
 
@@ -105,75 +104,12 @@ export default function HomePage() {
 
           {/* Right Side - Illustration Card */}
           <div className="relative flex justify-center lg:justify-end">
-            <Card className="w-full max-w-md relative overflow-visible">
-              {/* Festive Border Decoration */}
-              <div className="absolute -inset-1 bg-gradient-to-r from-brand via-success to-brand rounded-xl opacity-20 blur-sm"></div>
-              <div className="absolute -inset-0.5 bg-gradient-to-r from-brand via-success to-brand rounded-xl"></div>
-
-              <CardContent className="relative bg-card rounded-lg p-8 space-y-6">
-                <h3 className="text-xl font-bold text-center">
-                  Smith Family Christmas
-                </h3>
-
-                {/* Circular Avatar Arrangement */}
-                <div className="relative w-64 h-64 mx-auto">
-                  {/* Gift boxes around the circle */}
-                  <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-2">
-                    <Gift className="size-5 text-brand" />
-                  </div>
-                  <div className="absolute top-1/2 right-0 translate-x-2 -translate-y-1/2">
-                    <Gift className="size-4 text-success" />
-                  </div>
-                  <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-2">
-                    <Gift className="size-5 text-brand" />
-                  </div>
-                  <div className="absolute top-1/2 left-0 -translate-x-2 -translate-y-1/2">
-                    <Gift className="size-4 text-success" />
-                  </div>
-
-                  {/* Participants in circle */}
-                  {participants.map((participant, index) => {
-                    const angle = (index * 360) / participants.length - 90;
-                    const radius = 100;
-                    const x = Math.cos((angle * Math.PI) / 180) * radius;
-                    const y = Math.sin((angle * Math.PI) / 180) * radius;
-
-                    return (
-                      <div
-                        key={index}
-                        className="absolute"
-                        style={{
-                          left: `calc(50% + ${x}px)`,
-                          top: `calc(50% + ${y}px)`,
-                          transform: "translate(-50%, -50%)",
-                        }}
-                      >
-                        <Avatar>
-                          <AvatarFallback className={participant.color}>
-                            <span className="text-accent-foreground text-xs">
-                              {participant.initials}
-                            </span>
-                          </AvatarFallback>
-                        </Avatar>
-                      </div>
-                    );
-                  })}
-
-                  {/* Center Speech Bubble */}
-                  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
-                    <div className="bg-card rounded-lg shadow-lg p-4 border-2 border-success/30 min-w-[140px] text-center">
-                      <p className="text-sm font-medium mb-2">
-                        You&apos;re buying for:
-                      </p>
-                      <p className="text-base font-bold">Sarah</p>
-                      <div className="flex justify-center mt-2">
-                        <Gift className="size-5 text-success" />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
+            <Image
+              src="/illustration.svg"
+              alt="Giftr"
+              width={500}
+              height={500}
+            />
           </div>
         </div>
       </section>
