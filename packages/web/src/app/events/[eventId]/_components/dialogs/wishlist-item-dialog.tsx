@@ -13,6 +13,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
+  Clipboard,
   Gift,
   Link as LinkIcon,
   Snowflake,
@@ -166,19 +167,38 @@ export function WishlistItemDialog({
           {/* Link or Store */}
           <div className="space-y-2">
             <Label htmlFor="link">Link o tienda (opcional)</Label>
-            <div className="relative">
-              <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground">
-                <LinkIcon className="size-4" />
-              </span>
-              <Input
-                id="link"
-                type="text"
-                placeholder="https://... o nombre de tienda"
-                value={link}
-                onChange={(e) => setLink(e.target.value)}
-                className="pl-10"
+            <div className="flex gap-2">
+              <div className="relative flex-1">
+                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground">
+                  <LinkIcon className="size-4" />
+                </span>
+                <Input
+                  id="link"
+                  type="text"
+                  placeholder="https://... o nombre de tienda"
+                  value={link}
+                  onChange={(e) => setLink(e.target.value)}
+                  className="pl-10"
+                  disabled={isPending}
+                />
+              </div>
+              <Button
+                type="button"
+                variant="outline"
+                size="icon"
                 disabled={isPending}
-              />
+                onClick={async () => {
+                  try {
+                    const text = await navigator.clipboard.readText();
+                    setLink(text);
+                  } catch {
+                    toast.error("No se pudo acceder al portapapeles");
+                  }
+                }}
+                aria-label="Pegar del portapapeles"
+              >
+                <Clipboard className="size-4" />
+              </Button>
             </div>
           </div>
 
