@@ -16,12 +16,12 @@ import { Gift, Snowflake, Calendar, UserPlus, Shuffle } from "lucide-react";
 export default function HomePage() {
   // Mock avatars for the hero illustration
   const participants = [
-    { initials: "SJ", color: "bg-purple-500" },
-    { initials: "MS", color: "bg-amber-600" },
-    { initials: "ES", color: "bg-amber-600" },
-    { initials: "DB", color: "bg-purple-500" },
-    { initials: "LD", color: "bg-orange-500" },
-    { initials: "RW", color: "bg-blue-500" },
+    { initials: "SJ", color: "bg-accent" },
+    { initials: "MS", color: "bg-accent" },
+    { initials: "ES", color: "bg-accent" },
+    { initials: "DB", color: "bg-accent" },
+    { initials: "LD", color: "bg-accent" },
+    { initials: "RW", color: "bg-accent" },
   ];
 
   return (
@@ -32,13 +32,13 @@ export default function HomePage() {
           <Snowflake className="size-6" />
         </div>
         <div className="absolute top-40 right-20 text-muted-foreground/10">
-          <Gift className="size-5 text-red-500/20" />
+          <Gift className="size-5 text-brand/20" />
         </div>
         <div className="absolute bottom-40 left-20 text-muted-foreground/10">
           <Snowflake className="size-8" />
         </div>
         <div className="absolute bottom-20 right-10 text-muted-foreground/10">
-          <Gift className="size-4 text-green-500/20" />
+          <Gift className="size-4 text-success/20" />
         </div>
       </div>
 
@@ -49,7 +49,7 @@ export default function HomePage() {
           <div className="space-y-8">
             <div className="space-y-4">
               <h1 className="text-5xl lg:text-6xl font-bold tracking-tight">
-                <span className="text-red-600">Giftr</span>
+                <span className="text-brand">Giftr</span>
                 <br />
                 <span className="text-foreground">
                   Una forma sencilla de organizar intercambios de regalos.
@@ -66,7 +66,7 @@ export default function HomePage() {
               <SignedOut>
                 <Button
                   size="lg"
-                  className="bg-red-600 hover:bg-red-700 text-white"
+                  className="bg-brand hover:bg-brand/90 text-brand-foreground"
                   asChild
                 >
                   <Link href="/sign-up">Comenzar Gratis</Link>
@@ -75,7 +75,7 @@ export default function HomePage() {
               <SignedIn>
                 <Button
                   size="lg"
-                  className="bg-red-600 hover:bg-red-700 text-white"
+                  className="bg-brand hover:bg-brand/90 text-brand-foreground"
                   asChild
                 >
                   <Link href="/events/new">Comenzar Gratis</Link>
@@ -107,8 +107,8 @@ export default function HomePage() {
           <div className="relative flex justify-center lg:justify-end">
             <Card className="w-full max-w-md relative overflow-visible">
               {/* Festive Border Decoration */}
-              <div className="absolute -inset-1 bg-gradient-to-r from-red-500 via-green-500 to-red-500 rounded-xl opacity-20 blur-sm"></div>
-              <div className="absolute -inset-0.5 bg-gradient-to-r from-red-400 via-green-400 to-red-400 rounded-xl"></div>
+              <div className="absolute -inset-1 bg-gradient-to-r from-brand via-success to-brand rounded-xl opacity-20 blur-sm"></div>
+              <div className="absolute -inset-0.5 bg-gradient-to-r from-brand via-success to-brand rounded-xl"></div>
 
               <CardContent className="relative bg-card rounded-lg p-8 space-y-6">
                 <h3 className="text-xl font-bold text-center">
@@ -119,16 +119,16 @@ export default function HomePage() {
                 <div className="relative w-64 h-64 mx-auto">
                   {/* Gift boxes around the circle */}
                   <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-2">
-                    <Gift className="size-5 text-red-500" />
+                    <Gift className="size-5 text-brand" />
                   </div>
                   <div className="absolute top-1/2 right-0 translate-x-2 -translate-y-1/2">
-                    <Gift className="size-4 text-green-500" />
+                    <Gift className="size-4 text-success" />
                   </div>
                   <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-2">
-                    <Gift className="size-5 text-red-500" />
+                    <Gift className="size-5 text-brand" />
                   </div>
                   <div className="absolute top-1/2 left-0 -translate-x-2 -translate-y-1/2">
-                    <Gift className="size-4 text-green-500" />
+                    <Gift className="size-4 text-success" />
                   </div>
 
                   {/* Participants in circle */}
@@ -150,7 +150,7 @@ export default function HomePage() {
                       >
                         <Avatar>
                           <AvatarFallback className={participant.color}>
-                            <span className="text-white text-xs">
+                            <span className="text-accent-foreground text-xs">
                               {participant.initials}
                             </span>
                           </AvatarFallback>
@@ -161,13 +161,13 @@ export default function HomePage() {
 
                   {/* Center Speech Bubble */}
                   <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
-                    <div className="bg-white rounded-lg shadow-lg p-4 border-2 border-green-200 min-w-[140px] text-center">
+                    <div className="bg-card rounded-lg shadow-lg p-4 border-2 border-success/30 min-w-[140px] text-center">
                       <p className="text-sm font-medium mb-2">
                         You&apos;re buying for:
                       </p>
                       <p className="text-base font-bold">Sarah</p>
                       <div className="flex justify-center mt-2">
-                        <Gift className="size-5 text-green-600" />
+                        <Gift className="size-5 text-success" />
                       </div>
                     </div>
                   </div>
@@ -195,8 +195,8 @@ export default function HomePage() {
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
           <Card>
             <CardHeader>
-              <div className="size-12 rounded-lg bg-red-100 flex items-center justify-center mb-4">
-                <Calendar className="size-6 text-red-600" />
+              <div className="size-12 rounded-lg bg-brand/10 flex items-center justify-center mb-4">
+                <Calendar className="size-6 text-brand" />
               </div>
               <CardTitle>Configuración Rápida</CardTitle>
               <CardDescription>
@@ -208,8 +208,8 @@ export default function HomePage() {
 
           <Card>
             <CardHeader>
-              <div className="size-12 rounded-lg bg-green-100 flex items-center justify-center mb-4">
-                <UserPlus className="size-6 text-green-600" />
+              <div className="size-12 rounded-lg bg-success/10 flex items-center justify-center mb-4">
+                <UserPlus className="size-6 text-success" />
               </div>
               <CardTitle>Invitaciones Fáciles</CardTitle>
               <CardDescription>
@@ -222,8 +222,8 @@ export default function HomePage() {
 
           <Card>
             <CardHeader>
-              <div className="size-12 rounded-lg bg-yellow-100 flex items-center justify-center mb-4">
-                <Shuffle className="size-6 text-yellow-600" />
+              <div className="size-12 rounded-lg bg-warning/10 flex items-center justify-center mb-4">
+                <Shuffle className="size-6 text-warning" />
               </div>
               <CardTitle>Sorteo Automático</CardTitle>
               <CardDescription>
@@ -235,8 +235,8 @@ export default function HomePage() {
 
           <Card>
             <CardHeader>
-              <div className="size-12 rounded-lg bg-blue-100 flex items-center justify-center mb-4">
-                <Gift className="size-6 text-blue-600" />
+              <div className="size-12 rounded-lg bg-info/10 flex items-center justify-center mb-4">
+                <Gift className="size-6 text-info" />
               </div>
               <CardTitle>Gestión de Wishlist</CardTitle>
               <CardDescription>

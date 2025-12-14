@@ -29,7 +29,7 @@ export default function RootLayout({
     <ClerkProvider localization={esMX}>
       <html lang="es">
         <body className={`${dmSans.variable} antialiased font-sans`}>
-          <div className="flex min-h-screen flex-col bg-gradient-to-r from-amber-50/50 to-blue-50/50">
+          <div className="flex min-h-screen flex-col gradient">
             <Header />
             <main className="flex-1">{children}</main>
             <Footer />

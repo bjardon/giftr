@@ -211,7 +211,7 @@ export function EventInfoCard({
                 <div className="flex items-center gap-2">
                   {isDrawn ? (
                     <>
-                      <Check className="size-4 text-green-600" />
+                      <Check className="size-4 text-success" />
                       <p className="font-semibold">
                         {format(drawnAt, "d MMM yyyy, HH:mm", { locale: es })}
                       </p>

@@ -118,7 +118,7 @@ export function EventInstructionsCard({
               id="instructions"
               value={editedContent}
               onChange={(e) => setEditedContent(e.target.value)}
-              className="w-full min-h-[100px] p-2 border border-gray-300 rounded-md"
+              className="w-full min-h-[100px] p-2 border border-border rounded-md"
             />
           </div>
         ) : (

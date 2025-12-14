@@ -12,7 +12,13 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Gift, Link as LinkIcon, Snowflake, Type, FileText } from "lucide-react";
+import {
+  Gift,
+  Link as LinkIcon,
+  Snowflake,
+  Type,
+  FileText,
+} from "lucide-react";
 import { addWishlistItem, updateWishlistItem } from "../../actions";
 import { toast } from "sonner";
 
@@ -114,8 +120,8 @@ export function WishlistItemDialog({
 
         <DialogHeader className="text-center sm:text-center">
           <div className="flex justify-center mb-2">
-            <div className="rounded-full bg-red-100 p-3">
-              <Gift className="size-8 text-red-600" />
+            <div className="rounded-full bg-brand/10 p-3">
+              <Gift className="size-8 text-brand" />
             </div>
           </div>
           <DialogTitle className="text-xl">
@@ -207,7 +213,7 @@ export function WishlistItemDialog({
             <Button
               type="submit"
               disabled={isPending}
-              className="flex-1 sm:flex-none bg-red-600 hover:bg-red-700 text-white"
+              className="flex-1 sm:flex-none bg-brand hover:bg-brand/90 text-brand-foreground"
             >
               {isPending
                 ? "Guardando..."
@@ -221,4 +227,3 @@ export function WishlistItemDialog({
     </Dialog>
   );
 }
-

@@ -10,7 +10,7 @@ export function SubmitButton() {
     <Button
       type="submit"
       disabled={pending}
-      className="bg-red-600 hover:bg-red-700 text-white disabled:opacity-50"
+      className="bg-brand hover:bg-brand/90 text-brand-foreground disabled:opacity-50"
     >
       {pending ? (
         <>
@@ -23,4 +23,3 @@ export function SubmitButton() {
     </Button>
   );
 }
-

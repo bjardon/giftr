@@ -119,8 +119,8 @@ export function EditEventDialog({
 
         <DialogHeader className="text-center sm:text-center">
           <div className="flex justify-center mb-2">
-            <div className="rounded-full bg-blue-100 p-3">
-              <Pencil className="size-8 text-blue-600" />
+            <div className="rounded-full bg-info/10 p-3">
+              <Pencil className="size-8 text-info" />
             </div>
           </div>
           <DialogTitle className="text-xl">Editar Evento</DialogTitle>
@@ -252,4 +252,3 @@ export function EditEventDialog({
     </Dialog>
   );
 }
-

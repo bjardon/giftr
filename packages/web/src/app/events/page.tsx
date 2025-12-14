@@ -81,7 +81,7 @@ export default async function EventsPage() {
                 </p>
               </div>
               <Link href="/events/new">
-                <Button className="bg-red-600 hover:bg-red-700 text-white">
+                <Button className="bg-brand hover:bg-brand/90 text-brand-foreground">
                   <Plus className="size-4" />
                   Crear Evento
                 </Button>

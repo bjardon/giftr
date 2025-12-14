@@ -48,18 +48,8 @@ interface ParticipantsCardProps {
 }
 
 // Helper function to get avatar color
-const getAvatarColor = (name: string) => {
-  const colors = [
-    "bg-purple-500",
-    "bg-amber-600",
-    "bg-orange-500",
-    "bg-blue-500",
-    "bg-green-500",
-    "bg-pink-500",
-    "bg-indigo-500",
-  ];
-  const index = name.charCodeAt(0) % colors.length;
-  return colors[index];
+const getAvatarColor = () => {
+  return "bg-accent";
 };
 
 export function ParticipantsCard({
@@ -213,9 +203,7 @@ export function ParticipantsCard({
                 >
                   <Avatar>
                     <AvatarFallback
-                      className={`${getAvatarColor(
-                        participant.user.name
-                      )} text-white`}
+                      className={`${getAvatarColor()} text-accent-foreground`}
                     >
                       {initials}
                     </AvatarFallback>
@@ -232,7 +220,7 @@ export function ParticipantsCard({
                         )}
                       </p>
                       {isOrganizer && (
-                        <Crown className="size-3 text-amber-500 shrink-0" />
+                        <Crown className="size-3 text-warning shrink-0" />
                       )}
                     </div>
                     <p className="text-xs text-muted-foreground truncate">
@@ -242,10 +230,10 @@ export function ParticipantsCard({
                   <Badge
                     className={
                       participant.status === "accepted"
-                        ? "bg-green-500 text-white border-0"
+                        ? "bg-success text-success-foreground border-0"
                         : participant.status === "declined"
-                        ? "bg-red-500 text-white border-0"
-                        : "bg-yellow-500 text-white border-0"
+                        ? "bg-destructive text-destructive-foreground border-0"
+                        : "bg-warning text-warning-foreground border-0"
                     }
                   >
                     {participant.status === "accepted"

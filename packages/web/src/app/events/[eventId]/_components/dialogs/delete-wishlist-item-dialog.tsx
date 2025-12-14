@@ -60,7 +60,7 @@ export function DeleteWishlistItemDialog({
           <AlertDialogAction
             onClick={handleDelete}
             disabled={isPending}
-            className="bg-destructive text-white hover:bg-destructive/90"
+            className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
           >
             {isPending ? (
               <>
@@ -76,4 +76,3 @@ export function DeleteWishlistItemDialog({
     </AlertDialog>
   );
 }
-

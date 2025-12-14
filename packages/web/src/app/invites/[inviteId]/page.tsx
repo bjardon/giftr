@@ -38,13 +38,13 @@ export default function InvitePage() {
       <div className="min-h-screen flex items-center justify-center p-4">
         <Card className="max-w-md w-full">
           <CardContent className="p-8 text-center space-y-4">
-            <Gift className="size-12 text-red-600 mx-auto" />
+            <Gift className="size-12 text-brand mx-auto" />
             <h1 className="text-2xl font-bold">Invitation Accepted!</h1>
             <p className="text-muted-foreground">
               You&apos;ve successfully joined {inviteData.event.title}
             </p>
             <Link href={`/events/${inviteData.inviteId}`}>
-              <Button className="w-full bg-red-600 hover:bg-red-700 text-white">
+              <Button className="w-full bg-brand hover:bg-brand/90 text-brand-foreground">
                 Go to Event
               </Button>
             </Link>
@@ -80,8 +80,8 @@ export default function InvitePage() {
         {/* Giftr Logo (top-left, outside card) */}
         <div className="mb-8">
           <Link href="/" className="flex items-center gap-2">
-            <span className="text-2xl font-bold text-red-700">Giftr</span>
-            <Snowflake className="size-5 text-amber-500" />
+            <span className="text-2xl font-bold text-brand">Giftr</span>
+            <Snowflake className="size-5 text-warning" />
           </Link>
         </div>
 
@@ -91,7 +91,7 @@ export default function InvitePage() {
             {/* Header Section */}
             <div className="text-center space-y-4">
               <div className="flex justify-center">
-                <Gift className="size-8 text-red-600" />
+                <Gift className="size-8 text-brand" />
               </div>
               <div className="space-y-2">
                 <h1 className="text-3xl font-bold text-foreground">
@@ -105,12 +105,12 @@ export default function InvitePage() {
             </div>
 
             {/* Event Details Section */}
-            <div className="bg-blue-100/50 rounded-lg p-6 space-y-4 relative">
+            <div className="bg-info/10 rounded-lg p-6 space-y-4 relative">
               {/* Green Snowflakes */}
               <div className="flex justify-center gap-2 absolute -top-3 left-1/2 -translate-x-1/2">
-                <Snowflake className="size-4 text-green-500" />
-                <Snowflake className="size-4 text-green-500" />
-                <Snowflake className="size-4 text-green-500" />
+                <Snowflake className="size-4 text-success" />
+                <Snowflake className="size-4 text-success" />
+                <Snowflake className="size-4 text-success" />
               </div>
 
               <div className="space-y-3 pt-2">
@@ -147,7 +147,7 @@ export default function InvitePage() {
             <div className="flex gap-4">
               <Button
                 onClick={handleAccept}
-                className="flex-1 bg-red-600 hover:bg-red-700 text-white"
+                className="flex-1 bg-brand hover:bg-brand/90 text-brand-foreground"
               >
                 Accept Invitation
               </Button>

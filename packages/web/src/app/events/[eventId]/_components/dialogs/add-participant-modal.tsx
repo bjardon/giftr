@@ -81,8 +81,8 @@ export function AddParticipantModal({
 
         <DialogHeader className="text-center sm:text-center">
           <div className="flex justify-center mb-2">
-            <div className="rounded-full bg-red-100 p-3">
-              <Gift className="size-8 text-red-600" />
+            <div className="rounded-full bg-brand/10 p-3">
+              <Gift className="size-8 text-brand" />
             </div>
           </div>
           <DialogTitle className="text-xl">Agregar Participante</DialogTitle>
@@ -124,9 +124,9 @@ export function AddParticipantModal({
           </div>
 
           {/* Info banner */}
-          <div className="bg-blue-50 border border-blue-200 rounded-md p-3 flex items-start gap-3">
-            <Info className="size-5 text-blue-600 shrink-0 mt-0.5" />
-            <p className="text-sm text-blue-900">
+          <div className="bg-info/10 border border-info/30 rounded-md p-3 flex items-start gap-3">
+            <Info className="size-5 text-info shrink-0 mt-0.5" />
+            <p className="text-sm text-foreground">
               Los participantes pueden aceptar o rechazar la invitación por
               correo electrónico
             </p>
@@ -145,7 +145,7 @@ export function AddParticipantModal({
             <Button
               type="submit"
               disabled={isPending}
-              className="flex-1 sm:flex-none bg-red-600 hover:bg-red-700 text-white"
+              className="flex-1 sm:flex-none bg-brand hover:bg-brand/90 text-brand-foreground"
             >
               {isPending ? (
                 "Enviando..."

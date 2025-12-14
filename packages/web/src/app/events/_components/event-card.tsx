@@ -19,7 +19,7 @@ export async function EventCard({
   participants: (typeof participantsTable.$inferSelect)[];
 }) {
   const status = event.drawnAt ? "Sorteado" : "No Sorteado";
-  const statusColor = event.drawnAt ? "bg-green-500" : "bg-red-500";
+  const statusColor = event.drawnAt ? "bg-success" : "bg-brand";
 
   const pending = participants.filter(
     (participant) => participant.status === "pending"
@@ -33,7 +33,13 @@ export async function EventCard({
       <CardHeader>
         <div className="flex items-start justify-between">
           <CardTitle className="text-xl">{event.title}</CardTitle>
-          <Badge className={`${statusColor} text-white border-0`}>
+          <Badge
+            className={`${statusColor} ${
+              event.drawnAt
+                ? "text-success-foreground"
+                : "text-brand-foreground"
+            } border-0`}
+          >
             {status}
           </Badge>
         </div>

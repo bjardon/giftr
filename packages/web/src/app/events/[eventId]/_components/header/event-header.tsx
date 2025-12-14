@@ -28,14 +28,17 @@ interface EventHeaderProps {
 
 const statusConfig: Record<EventStatus, { label: string; className: string }> =
   {
-    drawn: { label: "Sorteado", className: "bg-green-500 text-white border-0" },
+    drawn: {
+      label: "Sorteado",
+      className: "bg-success text-success-foreground border-0",
+    },
     scheduled: {
       label: "Programado",
-      className: "bg-blue-500 text-white border-0",
+      className: "bg-info text-info-foreground border-0",
     },
     "not started": {
       label: "Sin iniciar",
-      className: "bg-gray-500 text-white border-0",
+      className: "bg-muted text-muted-foreground border-0",
     },
   };
 

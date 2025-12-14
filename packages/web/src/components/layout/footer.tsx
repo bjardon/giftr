@@ -15,6 +15,16 @@ export function Footer() {
               @bjardon
             </Link>
           </p>
+          <p>
+            Ilustración de{" "}
+            <Link href="https://unsplash.com/es/@genetx?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">
+              Syed Foyez Uddin
+            </Link>{" "}
+            en{" "}
+            <Link href="https://unsplash.com/es/ilustraciones/arbol-de-navidad-y-regalos-con-muneco-de-nieve-h8aRZY12lG8?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">
+              Unsplash
+            </Link>
+          </p>
         </div>
       </div>
     </footer>

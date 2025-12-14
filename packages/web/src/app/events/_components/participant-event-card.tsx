@@ -63,7 +63,7 @@ export function ParticipantEventCard({
 
   // Determine card styling based on state
   const cardClassName = isDrawn
-    ? "flex flex-col bg-gradient-to-br from-green-50 to-emerald-100 border-green-200"
+    ? "flex flex-col bg-gradient-to-br from-success/10 to-success/20 border-success/30"
     : "flex flex-col";
 
   return (
@@ -76,9 +76,9 @@ export function ParticipantEventCard({
             <Badge
               className={`${
                 isPendingStatus
-                  ? "bg-yellow-500"
-                  : "bg-green-500"
-              } text-white border-0`}
+                  ? "bg-warning text-warning-foreground"
+                  : "bg-success text-success-foreground"
+              } border-0`}
             >
               {isPendingStatus ? "Pendiente" : "Aceptado"}
             </Badge>
@@ -111,7 +111,7 @@ export function ParticipantEventCard({
             <Button
               onClick={handleAccept}
               disabled={isPending}
-              className="flex-1 bg-green-600 hover:bg-green-700 text-white"
+              className="flex-1 bg-success hover:bg-success/90 text-success-foreground"
             >
               Aceptar
             </Button>
@@ -127,7 +127,7 @@ export function ParticipantEventCard({
         ) : isDrawn ? (
           /* Drawn: show reveal recipient button */
           <Link href={`/events/${event.id}`} className="w-full">
-            <Button className="w-full bg-green-600 hover:bg-green-700 text-white">
+            <Button className="w-full bg-success hover:bg-success/90 text-success-foreground">
               <Gift className="size-4 mr-2" />
               Descubrir mi destinatario
             </Button>
@@ -144,4 +144,3 @@ export function ParticipantEventCard({
     </Card>
   );
 }
-

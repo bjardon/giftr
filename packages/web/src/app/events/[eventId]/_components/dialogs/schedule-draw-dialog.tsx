@@ -101,8 +101,8 @@ export function ScheduleDrawDialog({
 
         <DialogHeader className="text-center sm:text-center">
           <div className="flex justify-center mb-2">
-            <div className="rounded-full bg-blue-100 p-3">
-              <Shuffle className="size-8 text-blue-600" />
+            <div className="rounded-full bg-info/10 p-3">
+              <Shuffle className="size-8 text-info" />
             </div>
           </div>
           <DialogTitle className="text-xl">
@@ -143,9 +143,9 @@ export function ScheduleDrawDialog({
             {error && <p className="text-sm text-destructive">{error}</p>}
           </div>
 
-          <div className="bg-blue-50 border border-blue-200 rounded-md p-3 flex items-start gap-3">
-            <Calendar className="size-5 text-blue-600 shrink-0 mt-0.5" />
-            <p className="text-sm text-blue-900">
+          <div className="bg-info/10 border border-info/30 rounded-md p-3 flex items-start gap-3">
+            <Calendar className="size-5 text-info shrink-0 mt-0.5" />
+            <p className="text-sm text-foreground">
               El sorteo se realizará automáticamente en la fecha y hora
               seleccionada. Los participantes recibirán su asignación por
               correo.
