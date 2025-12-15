@@ -56,6 +56,30 @@ export default $config({
 
     // #endregion Core Services
 
+    // EVENT BUS
+    // #region Event Bus
+
+    const bus = new sst.aws.Bus("EventBus");
+
+    // - Draw Handler
+    const drawSubscription = bus.subscribe(
+      "Draw",
+      {
+        handler: "packages/functions/src/events/draw/index.handler",
+        link: [database],
+        environment: {
+          DATABASE_URL: database.properties.connectionString,
+        },
+      },
+      {
+        pattern: {
+          detailType: ["Event.Draw"],
+        },
+      }
+    );
+
+    // #endregion Event Bus
+
     // API GATEWAY
     // #region API Gateway
 
@@ -72,10 +96,12 @@ export default $config({
         CLERK_WEBHOOK_SECRET: process.env.CLERK_WEBHOOK_SECRET!,
       },
     });
+
     // #endregion API Gateway
 
     // WEB APP
     // #region Web App
+
     const webProject = new vercel.Project(`giftr-${stage}-site`, {
       name: `giftr-${stage}-site`,
       framework: "nextjs",
@@ -97,9 +123,12 @@ export default $config({
       files: nextDeploymentFiles.files,
       pathPrefix: projectRootPath, // Strip the leading full path to the project root
       environment: {
+        AWS_ACCESS_KEY_ID: process.env.AWS_ACCESS_KEY_ID!,
+        AWS_SECRET_ACCESS_KEY: process.env.AWS_SECRET_ACCESS_KEY!,
         CLERK_SECRET_KEY: process.env.CLERK_SECRET_KEY!,
         CLERK_WEBHOOK_SECRET: process.env.CLERK_WEBHOOK_SECRET!,
         DATABASE_URL: database.properties.connectionString,
+        EVENT_BUS_NAME: bus.name,
         NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY:
           process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY!,
       },
@@ -112,10 +141,12 @@ export default $config({
       ttl: 300,
       records: [webDeployment.url],
     });
+
     // #endregion Web App
 
     return {
       "database.connectionString": database.properties.connectionString,
+      "eventBus.name": bus.name,
       "api.url": api.url,
       "api.webhooksRoute": webhooksRoute.urn,
       "webApp.project": webProject.id,
