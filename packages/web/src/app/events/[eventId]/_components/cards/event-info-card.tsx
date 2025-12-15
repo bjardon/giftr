@@ -14,6 +14,7 @@ import {
   DollarSign,
   Gift,
   MoreHorizontal,
+  Play,
   Power,
   PowerOff,
   RefreshCw,
@@ -22,10 +23,11 @@ import {
 } from "lucide-react";
 import { format, parseISO } from "date-fns";
 import { es } from "date-fns/locale";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useTransition } from "react";
 import { toast } from "sonner";
 import { ScheduleDrawDialog } from "../dialogs/schedule-draw-dialog";
 import { DisableDrawDialog } from "../dialogs/disable-draw-dialog";
+import { drawNow } from "../../actions";
 
 interface EventInfoCardProps {
   eventId: string;
@@ -53,12 +55,24 @@ export function EventInfoCard({
   const [mounted, setMounted] = useState(false);
   const [scheduleDialogOpen, setScheduleDialogOpen] = useState(false);
   const [disableDialogOpen, setDisableDialogOpen] = useState(false);
+  const [isPending, startTransition] = useTransition();
 
   // Prevent hydration mismatch with Radix ID generation
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setMounted(true);
   }, []);
+
+  const handleDrawNow = () => {
+    startTransition(async () => {
+      const result = await drawNow(eventId);
+      if (result.success) {
+        toast.success("Sorteo realizado correctamente");
+      } else {
+        toast.error(result.error);
+      }
+    });
+  };
 
   const formattedDate = format(parseISO(scheduledOn), "d 'de' MMMM, yyyy", {
     locale: es,
@@ -77,11 +91,6 @@ export function EventInfoCard({
 
   const isDrawn = !!drawnAt;
   const hasScheduledDraw = !!scheduledDrawAt;
-
-  const handleRedraw = () => {
-    // TODO: Implement redraw
-    toast.info("Función de volver a sortear próximamente");
-  };
 
   return (
     <>
@@ -165,13 +174,20 @@ export function EventInfoCard({
                       <DropdownMenuContent align="end" className="w-52">
                         {isDrawn ? (
                           // Event has been drawn - show redraw option
-                          <DropdownMenuItem onSelect={handleRedraw}>
+                          <DropdownMenuItem onSelect={handleDrawNow}>
                             <RefreshCw className="size-4" />
                             Volver a sortear
                           </DropdownMenuItem>
                         ) : hasScheduledDraw ? (
-                          // Has scheduled draw - show update and disable options
+                          // Has scheduled draw - show draw now, update and disable options
                           <>
+                            <DropdownMenuItem
+                              onSelect={handleDrawNow}
+                              disabled={isPending}
+                            >
+                              <Play className="size-4" />
+                              Sortear ahora
+                            </DropdownMenuItem>
                             <DropdownMenuItem
                               onSelect={() => setScheduleDialogOpen(true)}
                             >
@@ -186,13 +202,22 @@ export function EventInfoCard({
                             </DropdownMenuItem>
                           </>
                         ) : (
-                          // No scheduled draw - show enable option
-                          <DropdownMenuItem
-                            onSelect={() => setScheduleDialogOpen(true)}
-                          >
-                            <Power className="size-4" />
-                            Activar sorteo automático
-                          </DropdownMenuItem>
+                          // No scheduled draw - show draw now and enable options
+                          <>
+                            <DropdownMenuItem
+                              onSelect={handleDrawNow}
+                              disabled={isPending}
+                            >
+                              <Play className="size-4" />
+                              Sortear ahora
+                            </DropdownMenuItem>
+                            <DropdownMenuItem
+                              onSelect={() => setScheduleDialogOpen(true)}
+                            >
+                              <Power className="size-4" />
+                              Activar sorteo automático
+                            </DropdownMenuItem>
+                          </>
                         )}
                       </DropdownMenuContent>
                     </DropdownMenu>

@@ -1,6 +1,10 @@
 "use server";
 
 import { auth } from "@clerk/nextjs/server";
+import {
+  EventBridgeClient,
+  PutEventsCommand,
+} from "@aws-sdk/client-eventbridge";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { db, events, participants, users, wishlistItems } from "@giftr/core/db";
@@ -317,7 +321,10 @@ export async function acceptInvitation(eventId: string, participantId: string) {
 /**
  * Decline an invitation to an event
  */
-export async function declineInvitation(eventId: string, participantId: string) {
+export async function declineInvitation(
+  eventId: string,
+  participantId: string
+) {
   const user = await getAuthenticatedUser();
 
   try {
@@ -384,6 +391,47 @@ export async function deleteEvent(eventId: string) {
 
     console.error("Error deleting event:", error);
     return { success: false, error: "Error al eliminar el evento" };
+  }
+}
+
+/**
+ * Draw the event immediately (assign recipients to participants)
+ */
+export async function drawNow(eventId: string) {
+  const { event, isOrganizer } = await getAuthenticatedOrganizer(eventId);
+
+  if (!event || !isOrganizer) {
+    return {
+      success: false,
+      error: "No tienes permiso para sortear este evento",
+    };
+  }
+
+  try {
+    const eb = new EventBridgeClient({
+      credentials: {
+        accessKeyId: process.env.AWS_ACCESS_KEY_ID!,
+        secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY!,
+      },
+    });
+
+    await eb.send(
+      new PutEventsCommand({
+        Entries: [
+          {
+            EventBusName: process.env.EVENT_BUS_NAME!,
+            DetailType: "Event.Draw",
+            Source: "web.draw.onDemand",
+            Detail: JSON.stringify({ eventId }),
+          },
+        ],
+      })
+    );
+
+    return { success: true };
+  } catch (error) {
+    console.error("Error drawing event:", error);
+    return { success: false, error: "Error al sortear el evento" };
   }
 }
 
